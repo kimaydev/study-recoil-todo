@@ -17,6 +17,9 @@ const TodoItem = ({ item }) => {
   // function replaceItemIndex(arr, index, newValue) {}
   // const replaceItemIndex = (arr, index, newValue) = (원본배열, 순서번호, 업데이트할객체) => {}
   const replaceItemIndex = (arr, index, newValue) => {
+    // 현재 todoList의 idx에 해당하는 내용을 수정한다.
+    // [현재 수정되는 배열의 이전 요소들, 현재 수정된 요소, 현재 수정되는 배열의 나머지 것들]
+
     // index만큼 배열을 추출한다.
     // slice 구문 (배열.slice(시작인덱스, 갯수))
     /*
@@ -46,10 +49,20 @@ const TodoItem = ({ item }) => {
   const handleChangeIsComplete = (e) => {
     e.preventDefault();
     // isComplete 토글
+    // 이전에 타이틀을 수정해서 idx를 통해 새로운 배열을 만든다
+    // isComplete를 수정해서 idx 이용해 새로운 배열을 만드는 것 [이전, 새로움, 다음]
+    // isComplete를 수정하기
+    const newTodoList = replaceItemIndex(todoList, idx, {
+      ...item,
+      isComplete: !item.isComplete,
+    });
+    // atom을 업데이트
+    setTodoList(newTodoList);
   };
 
   // 타이틀 삭제하기 함수
   const deleteItemIndex = (arr, index) => {
+    // [현재 idx의 이전 요소들, 현재 idx 이후의 요소들]
     return [...arr.slice(0, index), ...arr.slice(index + 1)];
   };
   const handleDelete = (e) => {
