@@ -36,7 +36,7 @@ const TodoItem = ({ item }) => {
     return [...arr.slice(0, index), newValue, ...arr.slice(index + 1)];
   };
   const handleChangeTitle = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     // title 수정하기
     const newTodoList = replaceItemIndex(todoList, idx, {
       ...item,
@@ -47,7 +47,7 @@ const TodoItem = ({ item }) => {
   };
 
   const handleChangeIsComplete = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     // isComplete 토글
     // 이전에 타이틀을 수정해서 idx를 통해 새로운 배열을 만든다
     // isComplete를 수정해서 idx 이용해 새로운 배열을 만드는 것 [이전, 새로움, 다음]
@@ -66,7 +66,7 @@ const TodoItem = ({ item }) => {
     return [...arr.slice(0, index), ...arr.slice(index + 1)];
   };
   const handleDelete = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     // todo 삭제
     const newList = deleteItemIndex(todoList, idx);
     setTodoList(newList);
