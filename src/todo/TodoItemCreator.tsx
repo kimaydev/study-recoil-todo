@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { todoListState } from "./TodoList";
+import { ITodo, todoListState } from "./TodoList";
 import { useSetRecoilState } from "recoil";
 
 // id 증가
@@ -13,15 +13,26 @@ const TodoItemCreator = () => {
   const setTodoList = useSetRecoilState(todoListState);
 
   // 할일 입력하기
-  const [inputValue, setInputValue] = useState("");
-  const handleOnchange = (e) => {
-    e.preventDefault();
-    setInputValue(e.target.value);
+  const [inputValue, setInputValue] = useState<string>("");
+  // ChangeEvent 처리법 1번
+  // const handleOnchange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setInputValue(e.target.value);
+  // };
+  // ChangeEvent 처리법 2번
+  // const handleOnchange: React.ChangeEventHandler<HTMLInputElement> = e => {
+  //   setInputValue(e.target.value);
+  // };
+  // ChangeEvent 처리법 3번 - 객체 구조 분해 할당
+  const handleOnchange: React.ChangeEventHandler<HTMLInputElement> = ({
+    target: { value },
+  }) => {
+    setInputValue(value);
   };
+
   const addTodo = () => {
     // console.log("할일 추가");
     // 4. atom 내용 추가하기
-    setTodoList((prev) => {
+    setTodoList((prev: Array<ITodo>) => {
       return [
         ...prev, // 이전값(prev)를 복사하고(...),
         { id: getId(), title: inputValue, isComplete: false },

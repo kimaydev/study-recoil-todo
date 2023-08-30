@@ -1,8 +1,8 @@
 import React from "react";
-import { atom, useRecoilState } from "recoil";
+import { RecoilState, atom, useRecoilState } from "recoil";
 // atom의 selector 활용해보기
 // 1. atom 생성
-export const todoListFilterState = atom({
+export const todoListFilterState: RecoilState<string> = atom<string>({
   // 키 이름 작성(atom 구분자 역할)
   key: "todoListFilterState",
   // 초깃값
@@ -10,9 +10,9 @@ export const todoListFilterState = atom({
 });
 const TodoListFilters = () => {
   // 생성한 atom을 이용함
-  const [filter, setFilter] = useRecoilState(todoListFilterState);
+  const [filter, setFilter] = useRecoilState<string>(todoListFilterState);
   // 1.
-  const handleOnChange = (e) => {
+  const handleOnChange: React.ChangeEventHandler<HTMLSelectElement> = e => {
     setFilter(e.target.value);
   };
   // 2.

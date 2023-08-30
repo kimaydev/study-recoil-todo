@@ -1,22 +1,31 @@
 import React from "react";
-import { selector, useRecoilValue } from "recoil";
-import { todoListState } from "./TodoList";
+import { RecoilValueReadOnly, selector, useRecoilValue } from "recoil";
+import { ITodo, todoListState } from "./TodoList";
 
-export const todoListNowState = selector({
+type TodoListStateT = {
+  totalTodo: number;
+  totalTodoComplete: ITodo[];
+  totalTodoUnComplete: ITodo[];
+  todoRatioNum: number;
+};
+
+export const todoListNowState: RecoilValueReadOnly<TodoListStateT> = selector({
   // 구분자
   key: "todoListNow",
   get: ({ get }) => {
-    const todoList = get(todoListState);
+    const todoList: ITodo[] = get(todoListState);
     // todo 전체 갯수
-    const totalTodo = todoList.length;
+    const totalTodo: number = todoList.length;
     // todo 완료 항목 수
-    const totalTodoComplete = todoList.filter((item) => item.isComplete);
+    const totalTodoComplete: ITodo[] = todoList.filter(item => item.isComplete);
     // todo 미완료 항목 수
-    const totalTodoUnComplete = todoList.filter((item) => !item.isComplete);
+    const totalTodoUnComplete: ITodo[] = todoList.filter(
+      item => !item.isComplete,
+    );
     // 수행률
-    const todoRatio =
+    const todoRatio: number =
       totalTodo === 0 ? 0 : (totalTodoComplete.length / totalTodo) * 100;
-    const todoRatioNum = Math.round(todoRatio);
+    const todoRatioNum: number = Math.round(todoRatio);
     return {
       totalTodo,
       totalTodoComplete,

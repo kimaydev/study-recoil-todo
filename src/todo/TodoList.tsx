@@ -5,16 +5,23 @@ import { atom, selector, useRecoilValue } from "recoil";
 import TodoListFilters, { todoListFilterState } from "./TodoListFilters";
 import TodoListState from "./TodoListState";
 
+// interface를 이용해서 todo목록의 데이터형을 지정한다.
+export interface ITodo {
+  id: number;
+  title: string;
+  isComplete: boolean;
+}
+
 /*
   1. todo 목록을 생성한다.
     - 컴포넌트 위치 및 배치와 상관없이 앱 전체에 활용 된다.  
     - Recoil의 atom(state/store)을 활용한다.    
 */
-export const todoListState = atom({
+export const todoListState = atom<Array<ITodo>>({
   // atom 구분자
   key: "todoListState",
   // 초깃값
-  default: [],
+  default: [], // 반드시 ITodo의 형식을 따라야 한다
 });
 
 // selector :
@@ -35,10 +42,10 @@ const filteredTodoListState = selector({
     switch (filter) {
       case "Show Complete":
         // 완료목록 정리 (filter : 참이면 return )
-        return list.filter((item) => item.isComplete);
+        return list.filter(item => item.isComplete);
       case "Show Uncomplete":
         // 미완료목록 정리
-        return list.filter((item) => !item.isComplete);
+        return list.filter(item => !item.isComplete);
       default:
         return list;
     }
@@ -57,7 +64,7 @@ const TodoList = () => {
       <TodoListState />
       <TodoItemCreator />
       <div>
-        {todoList.map((item) => (
+        {todoList.map(item => (
           <TodoItem key={item.id} item={item} />
         ))}
       </div>
